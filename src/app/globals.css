@@ -1,0 +1,272 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-muted-2: var(--muted-2);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  /* Cronos402 brand colors */
+  --color-navy-950: var(--navy-950);
+  --color-navy-900: var(--navy-900);
+  --color-navy-800: var(--navy-800);
+  --color-navy-700: var(--navy-700);
+  --color-navy-600: var(--navy-600);
+  --color-navy-500: var(--navy-500);
+  --color-electric-600: var(--electric-600);
+  --color-electric-500: var(--electric-500);
+  --color-electric-400: var(--electric-400);
+  --color-electric-300: var(--electric-300);
+  /* Slate scale */
+  --color-slate-950: var(--slate-950);
+  --color-slate-900: var(--slate-900);
+  --color-slate-800: var(--slate-800);
+  --color-slate-700: var(--slate-700);
+  --color-slate-600: var(--slate-600);
+  --color-slate-500: var(--slate-500);
+  --color-slate-400: var(--slate-400);
+  --color-slate-300: var(--slate-300);
+  --color-slate-200: var(--slate-200);
+  --color-slate-100: var(--slate-100);
+  --color-slate-50: var(--slate-50);
+}
+
+:root {
+  /* ═══════════════════════════════════════════
+     CRONOS402 DESIGN SYSTEM - Light Mode
+     ═══════════════════════════════════════════ */
+
+  --radius: 0.625rem;
+
+  /* Navy Scale (Brand Foundation) */
+  --navy-950: #001233;
+  --navy-900: #001D4A;
+  --navy-800: #002D74;
+  --navy-700: #003D99;
+  --navy-600: #0052CC;
+  --navy-500: #2E7BFF;
+
+  /* Electric Accent */
+  --electric-600: #00B8E6;
+  --electric-500: #00D4FF;
+  --electric-400: #33DDFF;
+  --electric-300: #66E5FF;
+
+  /* Slate Scale */
+  --slate-950: #0A0E14;
+  --slate-900: #111827;
+  --slate-800: #1E293B;
+  --slate-700: #334155;
+  --slate-600: #475569;
+  --slate-500: #64748B;
+  --slate-400: #94A3B8;
+  --slate-300: #CBD5E1;
+  --slate-200: #E2E8F0;
+  --slate-100: #F1F5F9;
+  --slate-50: #F8FAFC;
+
+  /* Semantic Colors */
+  --background: #FFFFFF;
+  --foreground: #0A0E14;
+  --card: #F8FAFC;
+  --card-foreground: #0A0E14;
+  --popover: #FFFFFF;
+  --popover-foreground: #0A0E14;
+  --primary: #002D74;
+  --primary-foreground: #FFFFFF;
+  --secondary: #F1F5F9;
+  --secondary-foreground: #002D74;
+  --muted: #F1F5F9;
+  --muted-foreground: #64748B;
+  --muted-2: #E2E8F0;
+  --accent: #00B8E6;
+  --accent-foreground: #FFFFFF;
+  --destructive: #EF4444;
+  --border: #E2E8F0;
+  --input: #F1F5F9;
+  --ring: #002D74;
+
+  /* Chart colors with navy/cyan theme */
+  --chart-1: #002D74;
+  --chart-2: #00B8E6;
+  --chart-3: #003D99;
+  --chart-4: #00D4FF;
+  --chart-5: #2E7BFF;
+
+  /* Sidebar */
+  --sidebar: #F8FAFC;
+  --sidebar-foreground: #0A0E14;
+  --sidebar-primary: #002D74;
+  --sidebar-primary-foreground: #FFFFFF;
+  --sidebar-accent: #F1F5F9;
+  --sidebar-accent-foreground: #002D74;
+  --sidebar-border: #E2E8F0;
+  --sidebar-ring: #002D74;
+
+  /* Gradients */
+  --gradient-brand: linear-gradient(135deg, #002D74 0%, #003D99 100%);
+  --gradient-accent: linear-gradient(90deg, #002D74 0%, #00D4FF 100%);
+  --gradient-surface: linear-gradient(180deg, #F8FAFC 0%, #FFFFFF 100%);
+}
+
+.dark {
+  /* ═══════════════════════════════════════════
+     CRONOS402 DESIGN SYSTEM - Dark Mode
+     ═══════════════════════════════════════════ */
+
+  --background: #0A0E14;
+  --foreground: #F8FAFC;
+  --card: #111827;
+  --card-foreground: #F8FAFC;
+  --popover: #111827;
+  --popover-foreground: #F8FAFC;
+  --primary: #2E7BFF;
+  --primary-foreground: #FFFFFF;
+  --secondary: #1E293B;
+  --secondary-foreground: #F8FAFC;
+  --muted: #1E293B;
+  --muted-foreground: #94A3B8;
+  --muted-2: #111827;
+  --accent: #00D4FF;
+  --accent-foreground: #0A0E14;
+  --destructive: #EF4444;
+  --border: #1E293B;
+  --input: rgba(255, 255, 255, 0.1);
+  --ring: #00D4FF;
+
+  /* Chart colors - brighter for dark mode */
+  --chart-1: #2E7BFF;
+  --chart-2: #00D4FF;
+  --chart-3: #5294FF;
+  --chart-4: #33DDFF;
+  --chart-5: #66E5FF;
+
+  /* Sidebar */
+  --sidebar: #111827;
+  --sidebar-foreground: #F8FAFC;
+  --sidebar-primary: #2E7BFF;
+  --sidebar-primary-foreground: #FFFFFF;
+  --sidebar-accent: #1E293B;
+  --sidebar-accent-foreground: #F8FAFC;
+  --sidebar-border: rgba(255, 255, 255, 0.1);
+  --sidebar-ring: #00D4FF;
+
+  /* Gradients */
+  --gradient-brand: linear-gradient(135deg, #001D4A 0%, #002D74 100%);
+  --gradient-surface: linear-gradient(180deg, #0A0E14 0%, #111827 100%);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background-color: var(--slate-200);
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: var(--slate-400);
+    border-radius: 4px;
+  }
+  /* Dark‑mode overrides */
+  .dark ::-webkit-scrollbar-track {
+    background-color: var(--slate-800);
+  }
+  .dark ::-webkit-scrollbar-thumb {
+    background-color: var(--slate-600);
+  }
+
+  /* Firefox */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--slate-400) var(--slate-200);
+  }
+  .dark * {
+    scrollbar-color: var(--slate-600) var(--slate-800);
+  }
+
+  .font-host {
+    font-family: var(--font-host-grotesk);
+  }
+  .font-mono {
+    font-family: var(--font-geist-mono);
+  }
+
+  /* Hide scrollbar utility */
+  .scrollbar-hide {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;  /* Chrome, Safari, and Opera */
+  }
+
+  /* Text selection colors - Cronos402 electric cyan */
+  ::selection {
+    background-color: rgba(0, 212, 255, 0.15);
+    color: #002D74;
+  }
+
+  .dark ::selection {
+    background-color: rgba(0, 212, 255, 0.2);
+    color: #00D4FF;
+  }
+
+  /* Visual proxy carousel animations */
+  @keyframes scroll-carousel {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  .animate-scroll-carousel {
+    animation: scroll-carousel linear infinite;
+    animation-duration: 30s;
+  }
+
+}
