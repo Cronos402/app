@@ -15,8 +15,8 @@ function getValidOrigin(request: Request): string | null {
   // In production, only allow specific domains
   if (env.NODE_ENV === 'production') {
     const allowedOrigins = [
-      'https://cronos402.tech',
-      'https://www.cronos402.tech',
+      'https://cronos402.dev',
+      'https://www.cronos402.dev',
       // Add your production domains here
     ]
     

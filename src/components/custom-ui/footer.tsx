@@ -57,7 +57,7 @@ export default function Footer() {
                                 variant="link"
                                 className="h-8 px-2 font-mono text-[13px] tracking-wide text-muted-foreground hover:text-foreground hover:underline hover:decoration-dotted underline-offset-2"
                             >
-                                <Link href="https://docs.cronos402.tech" target="_blank" rel="noreferrer">
+                                <Link href="https://docs.cronos402.dev" target="_blank" rel="noreferrer">
                                     DOCS
                                 </Link>
                             </Button>

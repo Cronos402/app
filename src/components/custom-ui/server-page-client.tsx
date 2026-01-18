@@ -49,13 +49,6 @@ type ServerDetail = {
     transactionHash?: string;
     amountFormatted?: string;
     currency?: string;
-    vlayerProof?: {
-      success: boolean;
-      version?: string;
-      notaryUrl?: string;
-      valid: boolean;
-      generatedAt?: string;
-    };
   }>
 }
 
@@ -246,7 +239,7 @@ export function ServerPageClient({ serverId, initialData }: ServerPageClientProp
   const mcpUrlDisplay = useMemo(() => {
     if (!data?.serverId) return ""
     try {
-      // Use the mcp2 format: https://mcp2.cronos402.tech/mcp?id=serverId
+      // Use the mcp2 format: https://mcp2.cronos402.dev/mcp?id=serverId
       const mcp2Url = urlUtils.getMcp2Url()
       return `${mcp2Url}/mcp?id=${data.serverId}`
     } catch {

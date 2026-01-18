@@ -305,7 +305,7 @@ export default function VisualProxy({
               Register (No Code)
             </Button>
           </Link>
-          <Link href="https://docs.cronos402.tech/" target="_blank" rel="noopener noreferrer" className="w-full lg:w-auto lg:flex-1">
+          <Link href="https://docs.cronos402.dev/" target="_blank" rel="noopener noreferrer" className="w-full lg:w-auto lg:flex-1">
             <Button variant="customTallSecondary" size="tall" className="w-full lg:min-w-[200px]">
               SDK (code)
             </Button>

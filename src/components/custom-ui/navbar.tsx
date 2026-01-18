@@ -203,7 +203,7 @@ export default function Navbar() {
 
                     <nav className="flex items-center">
                       <Button asChild variant="link" className={linkClasses}>
-                        <Link href="https://docs.cronos402.tech" target="_blank" rel="noreferrer">
+                        <Link href="https://docs.cronos402.dev" target="_blank" rel="noreferrer">
                           DOCS
                         </Link>
                       </Button>

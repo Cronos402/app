@@ -68,7 +68,7 @@ export async function GET(
     const quality = formatNumber(Number(data?.qualityScore || 0));
 
     // Get the base URL for OG images
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://cronos402.tech';
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://cronos402.dev';
 
     return new ImageResponse(
       (
@@ -117,7 +117,7 @@ export async function GET(
                 />
                 <div style={{ fontWeight: 500, display: "block" }}>Cronos402: First MCP Gateway for Cronos</div>
               </div>
-              <div style={{ fontSize: 15, opacity: 0.55, paddingLeft: 22, display: "block" }}>cronos402.tech</div>
+              <div style={{ fontSize: 15, opacity: 0.55, paddingLeft: 22, display: "block" }}>cronos402.dev</div>
             </div>
             <div
               style={{

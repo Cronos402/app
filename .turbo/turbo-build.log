@@ -1,0 +1,216 @@
+
+> @cronos402/app@0.1.2 build /Users/apple/dev/cronos/cronos402/apps/app
+> next build
+
+   ▲ Next.js 15.4.8
+   - Environments: .env.local
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully in 22.0s
+   Linting and checking validity of types ...
+
+./src/app/api/mcp-proxy/route.ts
+222:14  Warning: 'e' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./src/app/api/og/server/[id]/route.tsx
+72:11  Warning: 'backgroundImageUrl' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+162:12  Warning: 'e' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./src/app/register/page.tsx
+7:10  Warning: 'Card' is defined but never used.  @typescript-eslint/no-unused-vars
+7:16  Warning: 'CardContent' is defined but never used.  @typescript-eslint/no-unused-vars
+7:29  Warning: 'CardDescription' is defined but never used.  @typescript-eslint/no-unused-vars
+7:46  Warning: 'CardHeader' is defined but never used.  @typescript-eslint/no-unused-vars
+7:58  Warning: 'CardTitle' is defined but never used.  @typescript-eslint/no-unused-vars
+11:39  Warning: 'TabsContent' is defined but never used.  @typescript-eslint/no-unused-vars
+24:23  Warning: 'ArrowUpRight' is defined but never used.  @typescript-eslint/no-unused-vars
+24:50  Warning: 'Clipboard' is defined but never used.  @typescript-eslint/no-unused-vars
+24:61  Warning: 'Info' is defined but never used.  @typescript-eslint/no-unused-vars
+24:92  Warning: 'FlaskConical' is defined but never used.  @typescript-eslint/no-unused-vars
+26:8  Warning: 'Link' is defined but never used.  @typescript-eslint/no-unused-vars
+81:24  Warning: '_data' is defined but never used.  @typescript-eslint/no-unused-vars
+169:10  Warning: 'previewTools' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+441:9  Warning: '_createMonetizedEndpoint' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+
+./src/app/servers/[id]/page.tsx
+68:12  Warning: 'error' is defined but never used.  @typescript-eslint/no-unused-vars
+102:12  Warning: 'error' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./src/components/custom-ui/connect-panel.tsx
+260:7  Warning: 'generateClaudeDesktopCommand' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+400:11  Warning: 'isDark' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+517:11  Warning: 'isDark' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+620:10  Warning: 'copied' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+621:11  Warning: 'isDark' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+624:9  Warning: 'visibleUrl' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+626:9  Warning: 'handleCopy' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+669:11  Warning: 'isDark' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+
+./src/components/custom-ui/hero-3d.tsx
+162:42  Warning: 'index' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./src/components/custom-ui/integration-tab.tsx
+104:5  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+363:14  Warning: 'error' is defined but never used.  @typescript-eslint/no-unused-vars
+423:14  Warning: 'error' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./src/components/custom-ui/mcp-example-card.tsx
+12:10  Warning: 'Spinner' is defined but never used.  @typescript-eslint/no-unused-vars
+16:60  Warning: 'DrawerDescription' is defined but never used.  @typescript-eslint/no-unused-vars
+39:10  Warning: 'totalRequests' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+40:10  Warning: 'loadingRequests' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+
+./src/components/custom-ui/minimal-explorer.tsx
+78:9  Warning: 'stats' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+166:9  Warning: 'container' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+178:9  Warning: 'isStatsLoading' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+180:9  Warning: 'Stat' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+
+./src/components/custom-ui/monetize-wizard.tsx
+13:10  Warning: 'Textarea' is defined but never used.  @typescript-eslint/no-unused-vars
+15:23  Warning: 'Eye' is defined but never used.  @typescript-eslint/no-unused-vars
+15:28  Warning: 'EyeOff' is defined but never used.  @typescript-eslint/no-unused-vars
+15:36  Warning: 'FlaskConical' is defined but never used.  @typescript-eslint/no-unused-vars
+15:102  Warning: 'ChevronDown' is defined but never used.  @typescript-eslint/no-unused-vars
+15:115  Warning: 'Search' is defined but never used.  @typescript-eslint/no-unused-vars
+24:6  Warning: 'CronosNetwork' is defined but never used.  @typescript-eslint/no-unused-vars
+27:15  Warning: 'UserWallet' is defined but never used.  @typescript-eslint/no-unused-vars
+49:54  Warning: 'serverUrl' is defined but never used.  @typescript-eslint/no-unused-vars
+71:22  Warning: 'setShowValues' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+72:10  Warning: 'bulkHeadersText' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+72:27  Warning: 'setBulkHeadersText' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+73:23  Warning: 'setToolsSearch' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+87:7  Warning: Unused eslint-disable directive (no problems were reported from 'no-console').
+89:7  Warning: Unused eslint-disable directive (no problems were reported from 'no-console').
+109:9  Warning: 'filteredTools' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+121:9  Warning: 'svmNetworks' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+123:9  Warning: The 'visibleSvmNetworks' array makes the dependencies of useMemo Hook (at line 238) change on every render. To fix this, wrap the initialization of 'visibleSvmNetworks' in its own useMemo() Hook.  react-hooks/exhaustive-deps
+151:9  Warning: The 'svmWallets' array makes the dependencies of useMemo Hook (at line 205) change on every render. To fix this, wrap the initialization of 'svmWallets' in its own useMemo() Hook.  react-hooks/exhaustive-deps
+156:10  Warning: 'evmInputFocused' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+157:10  Warning: 'svmInputFocused' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+169:10  Warning: 'svmManuallyCleared' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+173:10  Warning: 'svmUserEdited' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+215:14  Warning: 'error' is defined but never used.  @typescript-eslint/no-unused-vars
+776:25  Warning: Unused eslint-disable directive (no problems were reported from 'no-console').
+993:25  Warning: Unused eslint-disable directive (no problems were reported from 'no-console').
+
+./src/components/custom-ui/navbar.tsx
+37:6  Warning: React Hook useEffect has a missing dependency: 'openModal'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/components/custom-ui/recent-payments-card.tsx
+6:10  Warning: 'Card' is defined but never used.  @typescript-eslint/no-unused-vars
+6:16  Warning: 'CardContent' is defined but never used.  @typescript-eslint/no-unused-vars
+6:29  Warning: 'CardDescription' is defined but never used.  @typescript-eslint/no-unused-vars
+6:46  Warning: 'CardHeader' is defined but never used.  @typescript-eslint/no-unused-vars
+6:58  Warning: 'CardTitle' is defined but never used.  @typescript-eslint/no-unused-vars
+23:38  Warning: 'Clock' is defined but never used.  @typescript-eslint/no-unused-vars
+23:45  Warning: 'Pause' is defined but never used.  @typescript-eslint/no-unused-vars
+23:52  Warning: 'Play' is defined but never used.  @typescript-eslint/no-unused-vars
+23:58  Warning: 'RefreshCcw' is defined but never used.  @typescript-eslint/no-unused-vars
+24:8  Warning: 'Image' is defined but never used.  @typescript-eslint/no-unused-vars
+93:10  Warning: 'error' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+150:9  Warning: 'alive' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+162:16  Warning: 'e' is defined but never used.  @typescript-eslint/no-unused-vars
+177:14  Warning: 'e' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./src/components/custom-ui/server-details-card.tsx
+3:10  Warning: 'Button' is defined but never used.  @typescript-eslint/no-unused-vars
+43:11  Warning: 'isDark' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+
+./src/components/custom-ui/servers-grid.tsx
+9:10  Warning: 'Check' is defined but never used.  @typescript-eslint/no-unused-vars
+9:31  Warning: 'Copy' is defined but never used.  @typescript-eslint/no-unused-vars
+43:10  Warning: 'copied' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+
+./src/components/custom-ui/token-icon.tsx
+24:11  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+36:11  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+./src/components/custom-ui/tool-execution-modal.tsx
+82:26  Warning: 'isDark' is defined but never used.  @typescript-eslint/no-unused-vars
+216:9  Warning: 'toolInputSchemaString' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+252:9  Warning: 'isOnCorrectNetwork' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+258:9  Warning: 'handleNetworkSwitch' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+316:9  Warning: 'formatCurrency' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+567:44  Warning: 'accepts' is defined but never used.  @typescript-eslint/no-unused-vars
+1621:48  Warning: 'index' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./src/components/providers/theme-context.tsx
+65:6  Warning: React Hook useEffect has a missing dependency: 'isDark'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/components/providers/user.tsx
+97:42  Warning: 'includeTestnet' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+
+./src/lib/client/wallet-utils.ts
+3:43  Warning: 'SUPPORTED_CRONOS_NETWORKS' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./src/lib/commons/balance-tracker.ts
+105:33  Warning: '_architecture' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./src/lib/commons/networks.ts
+18:3  Warning: 'CRONOS_NETWORK' is defined but never used.  @typescript-eslint/no-unused-vars
+396:43  Warning: 'blockchain' is defined but never used.  @typescript-eslint/no-unused-vars
+498:35  Warning: '_network' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./src/lib/gateway/inspect-mcp.ts
+1:15  Warning: 'UnifiedNetwork' is defined but never used.  @typescript-eslint/no-unused-vars
+53:11  Warning: 'SimplePaymentOption' is defined but never used.  @typescript-eslint/no-unused-vars
+61:11  Warning: 'AdvancedPaymentOption' is defined but never used.  @typescript-eslint/no-unused-vars
+
+info  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/app/api-reference/config/eslint#disabling-rules
+   Collecting page data ...
+ ⚠ Using edge runtime on a page currently disables static generation for that page
+   Generating static pages (0/11) ...
+   Generating static pages (2/11) 
+ ⚠ metadataBase property in metadata export is not set for resolving social open graph or twitter images, using "http://localhost:3000". See https://nextjs.org/docs/app/api-reference/functions/generate-metadata#metadatabase
+ReferenceError: indexedDB is not defined
+    at <unknown> (.next/server/chunks/9117.js:70:5635)
+    at <unknown> (.next/server/chunks/9117.js:70:5765)
+    at u (.next/server/chunks/9117.js:70:5897)
+    at getItem (.next/server/chunks/9117.js:70:11781)
+    at j (.next/server/chunks/9117.js:70:4727)
+    at Object.getItem (.next/server/chunks/9117.js:70:7499)
+    at w.getItem (.next/server/chunks/9117.js:70:12623)
+    at B (.next/server/chunks/9117.js:70:13990)
+    at new D (.next/server/chunks/9117.js:70:14567)
+    at new gF (.next/server/chunks/9117.js:37:91779)
+ReferenceError: indexedDB is not defined
+    at <unknown> (.next/server/chunks/9117.js:70:5635)
+    at <unknown> (.next/server/chunks/9117.js:70:5765)
+    at u (.next/server/chunks/9117.js:70:5897)
+    at getItem (.next/server/chunks/9117.js:70:11781)
+    at j (.next/server/chunks/9117.js:70:4727)
+    at Object.getItem (.next/server/chunks/9117.js:70:7499)
+    at w.getItem (.next/server/chunks/9117.js:70:12623)
+    at B (.next/server/chunks/9117.js:70:13990)
+    at new D (.next/server/chunks/9117.js:70:14567)
+    at new gF (.next/server/chunks/9117.js:37:91779)
+   Generating static pages (5/11) 
+   Generating static pages (8/11) 
+ ✓ Generating static pages (11/11)
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                                 Size  First Load JS
+┌ ○ /                                     313 kB         854 kB
+├ ○ /_not-found                            998 B         103 kB
+├ ƒ /api/inspect-mcp-server                142 B         103 kB
+├ ƒ /api/inspect-openapi                   142 B         103 kB
+├ ƒ /api/mcp-proxy                         142 B         103 kB
+├ ƒ /api/og/server/[id]                    142 B         103 kB
+├ ƒ /api/test-session                      142 B         103 kB
+├ ○ /explorer                            6.39 kB         273 kB
+├ ○ /register                            13.2 kB         193 kB
+├ ○ /register/success                    8.72 kB         218 kB
+├ ○ /servers                             4.12 kB         184 kB
+├ ƒ /servers/[id]                        29.5 kB         565 kB
+└ ○ /test-session                          890 B         103 kB
++ First Load JS shared by all             102 kB
+  ├ chunks/4bd1b696-cc729d47eba2cee4.js  54.1 kB
+  ├ chunks/5964-cf97c4cfb4a892e0.js      43.9 kB
+  └ other shared chunks (total)          4.45 kB
+
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+

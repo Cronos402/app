@@ -32,11 +32,6 @@ const SUPPORTED_BY_LOGOS = [
     src: "/logos/polygon-logo.svg",
   },
   {
-    name: "vlayer",
-    href: "https://vlayer.xyz/",
-    src: "/logos/vlayer-logo.svg",
-  },
-  {
     name: "ethglobal",
     href: "https://www.youtube.com/watch?v=0oi8ZEPILaI",
     src: "/logos/ETHGlobal.svg",
@@ -50,8 +45,6 @@ const getLogoSize = (name: string) => {
       return { className: "h-7 w-[70px]", width: 70, height: 28 }
     case "polygon":
       return { className: "h-8 w-[80px]", width: 80, height: 32 }
-    case "vlayer":
-      return { className: "h-6 w-[60px]", width: 60, height: 24 }
     case "ethglobal":
       return { className: "h-5 w-[90px]", width: 80, height: 20 }
     case "colosseum":

@@ -50,7 +50,7 @@ export const metadata: Metadata = {
     title: "Cronos402: First MCP Payment Gateway for Cronos",
     description: "The first MCP payment gateway built exclusively for Cronos blockchain. Pay for AI services with USDC.e (gasless) or native CRO.",
     type: "website",
-    url: "https://cronos402.tech",
+    url: "https://cronos402.dev",
     siteName: "Cronos402",
     images: [
       {
