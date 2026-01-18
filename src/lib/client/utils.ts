@@ -308,6 +308,13 @@ export const authApi = {
       body: JSON.stringify(data),
     })
   },
+
+  // Delete/unlink wallet
+  deleteWallet: async (walletId: string) => {
+    return serviceApiCall(urlUtils.getAuthUrl(), `/api/wallets/${walletId}`, {
+      method: 'DELETE',
+    })
+  },
 }
 
 export type McpServer = {
@@ -626,8 +633,8 @@ export const api = {
     })
   },
 
-  removeWallet: async (userId: string, walletId: string) => {
-    return apiCall(`/users/${userId}/wallets/${walletId}`, {
+  removeWallet: async (_userId: string, walletId: string) => {
+    return apiCall(`/api/wallets/${walletId}`, {
       method: 'DELETE',
     })
   },

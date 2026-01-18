@@ -2,9 +2,19 @@
 
 import { useEffect, useState, useCallback } from "react"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog"
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
-import { Github, Copy as CopyIcon, Check as CheckIcon, ExternalLink, Loader2 } from "lucide-react"
+import { Github, Copy as CopyIcon, Check as CheckIcon, ExternalLink, Loader2, Trash2 } from "lucide-react"
 import { useSession, signIn, signOut } from "@/lib/client/auth"
 import { authApi } from "@/lib/client/utils"
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
@@ -12,6 +22,8 @@ import { Skeleton } from "@/components/ui/skeleton"
 import { toast } from "sonner"
 import { useTheme } from "@/components/providers/theme-context"
 import { RainbowKitWalletConnector } from "@/components/custom-ui/rainbowkit-wallet-connector"
+import { CRONOS_EXPLORER, CRONOS_CHAIN_ID } from "@/lib/constants/cronos"
+import { useChainId } from "wagmi"
 
 type UserModalProps = {
   open: boolean
@@ -60,6 +72,14 @@ function shortAddress(addr?: string) {
   return `${a.slice(0, 6)}…${a.slice(-4)}`
 }
 
+function getWalletExplorerUrl(walletAddress: string, chainId?: number): string {
+  // Use chain ID to determine testnet vs mainnet
+  // Chain ID 338 = Cronos Testnet, Chain ID 25 = Cronos Mainnet
+  const isTestnet = chainId === CRONOS_CHAIN_ID.TESTNET
+  const baseUrl = isTestnet ? CRONOS_EXPLORER.TESTNET : CRONOS_EXPLORER.MAINNET
+  return `${baseUrl}/address/${walletAddress}`
+}
+
 type UserAccountPanelProps = {
   isActive?: boolean
   initialTab?: "wallets" | "developer"
@@ -68,6 +88,7 @@ type UserAccountPanelProps = {
 export function UserAccountPanel({ isActive = true, initialTab }: UserAccountPanelProps) {
   const { data: session } = useSession()
   const { isDark } = useTheme()
+  const chainId = useChainId()
 
   const [activeTab, setActiveTab] = useState<"wallets" | "developer">(initialTab || "wallets")
   const [loading, setLoading] = useState(false)
@@ -81,6 +102,9 @@ export function UserAccountPanel({ isActive = true, initialTab }: UserAccountPan
   const [apiKeyCreated, setApiKeyCreated] = useState<string>("")
   const [selectedKeys, setSelectedKeys] = useState<Set<string>>(new Set())
   const [bulkDeleting, setBulkDeleting] = useState(false)
+  const [deletingWalletId, setDeletingWalletId] = useState<string | null>(null)
+  const [walletToDelete, setWalletToDelete] = useState<{ id: string; address?: string } | null>(null)
+  const [showAddWallet, setShowAddWallet] = useState(false)
 
 
   const loadWallets = useCallback(async () => {
@@ -243,6 +267,29 @@ export function UserAccountPanel({ isActive = true, initialTab }: UserAccountPan
     }
   }
 
+  function openDeleteWalletDialog(walletId: string, walletAddress?: string) {
+    setWalletToDelete({ id: walletId, address: walletAddress })
+  }
+
+  async function confirmDeleteWallet() {
+    if (!session?.user?.id || !walletToDelete?.id) return
+
+    const walletId = walletToDelete.id
+    setDeletingWalletId(walletId)
+    setWalletToDelete(null)
+
+    try {
+      await authApi.deleteWallet(walletId)
+      toast.success("Wallet removed successfully")
+      await loadWallets()
+    } catch (e) {
+      const message = e instanceof Error ? e.message : "Failed to remove wallet"
+      setError(message)
+      toast.error(message)
+    } finally {
+      setDeletingWalletId(null)
+    }
+  }
 
   function handleCopy(addr?: string) {
     if (!addr) return
@@ -353,10 +400,38 @@ export function UserAccountPanel({ isActive = true, initialTab }: UserAccountPan
               <div className={`text-xs ${isDark ? "text-gray-400" : "text-gray-600"}`}>
                 Linked wallets{typeof wallets?.length === 'number' ? ` · ${wallets.length}` : ''}
               </div>
+              {wallets.length > 0 && (
+                <Button
+                  size="sm"
+                  variant="outline"
+                  className="text-xs h-7 px-2"
+                  onClick={() => setShowAddWallet(true)}
+                >
+                  + Add Wallet
+                </Button>
+              )}
             </div>
 
             <div className="flex-1 min-h-0">
-              {walletsLoading ? (
+              {showAddWallet ? (
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between">
+                    <span className={`text-sm font-medium ${isDark ? "text-white" : "text-gray-900"}`}>Connect a wallet</span>
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      className="text-xs h-7 px-2"
+                      onClick={() => setShowAddWallet(false)}
+                    >
+                      Cancel
+                    </Button>
+                  </div>
+                  <RainbowKitWalletConnector onWalletLinked={() => {
+                    loadWallets()
+                    setShowAddWallet(false)
+                  }} />
+                </div>
+              ) : walletsLoading ? (
                 <div className="h-full overflow-y-auto pr-2">
                   <div className={`rounded-md border divide-y ${isDark ? "border-gray-700 divide-gray-700" : "border-gray-200 divide-gray-200"}`}>
                     {Array.from({ length: 4 }).map((_, i) => (
@@ -416,16 +491,16 @@ export function UserAccountPanel({ isActive = true, initialTab }: UserAccountPan
                             <Tooltip>
                               <TooltipTrigger asChild>
                                 <Button
-                                  aria-label="View in Zerion"
+                                  aria-label="View on Cronos Explorer"
                                   size="sm"
                                   variant="outline"
                                   className="text-xs h-7 px-2"
-                                  onClick={() => window.open(`https://app.zerion.io/${wallet.walletAddress}/overview`, "_blank", "noopener")}
+                                  onClick={() => window.open(getWalletExplorerUrl(wallet.walletAddress!, chainId), "_blank", "noopener")}
                                 >
                                   <ExternalLink className="h-3 w-3 mr-1" /> View
                                 </Button>
                               </TooltipTrigger>
-                              <TooltipContent>Open in Zerion</TooltipContent>
+                              <TooltipContent>View on Cronos Explorer{chainId === CRONOS_CHAIN_ID.TESTNET ? ' (Testnet)' : ''}</TooltipContent>
                             </Tooltip>
                           ) : null}
                           {wallet.isPrimary && (
@@ -439,6 +514,25 @@ export function UserAccountPanel({ isActive = true, initialTab }: UserAccountPan
                               Fund
                             </Button>
                           )}
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <Button
+                                aria-label="Remove wallet"
+                                size="icon"
+                                variant="outline"
+                                className={`h-7 w-7 rounded-sm ${isDark ? "hover:bg-red-900/30 hover:border-red-800" : "hover:bg-red-50 hover:border-red-200"}`}
+                                onClick={() => wallet.id && openDeleteWalletDialog(wallet.id, wallet.walletAddress)}
+                                disabled={deletingWalletId === wallet.id}
+                              >
+                                {deletingWalletId === wallet.id ? (
+                                  <Loader2 className="h-3 w-3 animate-spin" />
+                                ) : (
+                                  <Trash2 className={`h-3 w-3 ${isDark ? "text-gray-400 hover:text-red-400" : "text-gray-500 hover:text-red-500"}`} />
+                                )}
+                              </Button>
+                            </TooltipTrigger>
+                            <TooltipContent>Remove wallet</TooltipContent>
+                          </Tooltip>
                         </div>
                       </div>
                     ))}
@@ -579,6 +673,31 @@ export function UserAccountPanel({ isActive = true, initialTab }: UserAccountPan
           </div>
         )}
         </div>
+
+      {/* Delete Wallet Confirmation Dialog */}
+      <AlertDialog open={!!walletToDelete} onOpenChange={(open) => !open && setWalletToDelete(null)}>
+        <AlertDialogContent className={isDark ? "bg-gray-900 border-gray-800" : ""}>
+          <AlertDialogHeader>
+            <AlertDialogTitle className={isDark ? "text-white" : ""}>Remove Wallet</AlertDialogTitle>
+            <AlertDialogDescription className={isDark ? "text-gray-400" : ""}>
+              Are you sure you want to remove wallet{" "}
+              <span className="font-mono font-medium">{shortAddress(walletToDelete?.address)}</span>?
+              This action cannot be undone.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel className={isDark ? "bg-gray-800 border-gray-700 text-white hover:bg-gray-700" : ""}>
+              Cancel
+            </AlertDialogCancel>
+            <AlertDialogAction
+              onClick={confirmDeleteWallet}
+              className="bg-red-600 hover:bg-red-700 text-white"
+            >
+              Remove Wallet
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   )
 }

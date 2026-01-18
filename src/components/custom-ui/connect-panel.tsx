@@ -100,19 +100,18 @@ const defaultTemplates: Templates = {
       return 'npx'
     }
 
-    const getArgs = () => {
+    const getBaseArgs = (url: string) => {
       if (platform === 'win') {
-        return ['/c', 'cronos402', 'connect', '--urls', baseUrl]
+        return ['/c', 'cronos402', 'connect', '--urls', url]
       }
       if (platform === 'wsl') {
-        return ['cronos402', 'connect', '--urls', baseUrl]
+        return ['cronos402', 'connect', '--urls', url]
       }
-      return ['cronos402', 'connect', '--urls', baseUrl]
+      return ['cronos402', 'connect', '--urls', url]
     }
 
-    const baseArgs = getArgs()
-
     if (authMode === 'oauth') {
+      // OAuth: Direct URL connection (no CLI needed)
       return `{
   "mcpServers": {
     "${serverName}": {
@@ -121,20 +120,25 @@ const defaultTemplates: Templates = {
   }
 }`
     } else if (authMode === 'private_key') {
-      const args = [...baseArgs, '--evm', '<PRIVATE_KEY>', '--evm-network', CRONOS_NETWORK.TESTNET]
+      // Direct + Wallet: Connect directly to MCP Gateway with EVM wallet for payments
+      // No auth proxy needed - just --evm for signing payments
+      const args = [...getBaseArgs(baseUrl), '--evm', '<YOUR_PRIVATE_KEY>', '--network', CRONOS_NETWORK.TESTNET]
       return `{
   "mcpServers": {
-    "${serverName}": {
+    "${serverName} (Direct + Wallet)": {
       "command": "${getCommand()}",
       "args": ${JSON.stringify(args)}
     }
   }
 }`
     } else {
-      const args = [...baseArgs, '--api-key', apiKey ?? '<API_KEY>']
+      // API Key via Proxy: Use auth proxy URL with API key
+      // Wrap the direct URL in the auth proxy
+      const proxyUrl = `http://localhost:3005/mcp?target-url=${btoa(baseUrl)}`
+      const args = [...getBaseArgs(proxyUrl), '--api-key', apiKey ?? '<YOUR_API_KEY>']
       return `{
   "mcpServers": {
-    "${serverName}": {
+    "${serverName} (API Key via Proxy)": {
       "command": "${getCommand()}",
       "args": ${JSON.stringify(args)}
     }
@@ -148,6 +152,7 @@ const defaultTemplates: Templates = {
       return `import { StreamableHTTPClientTransport } from "@modelcontextprotocol/sdk/client/transport/streamable-http";
 import { Client } from "@modelcontextprotocol/sdk/client/index";
 
+// OAuth: Direct connection (no auth needed)
 const url = new URL("${baseUrl}");
 const transport = new StreamableHTTPClientTransport(url.toString());
 
@@ -159,41 +164,58 @@ console.log("Available tools:", tools.map(t => t.name).join(", "));`
     } else if (authMode === 'private_key') {
       return `import { Client } from '@modelcontextprotocol/sdk/client/index.js'
 import { StreamableHTTPClientTransport } from '@modelcontextprotocol/sdk/client/streamableHttp.js'
-import { withX402Client } from "cronos402/client'
+import { withX402Client } from 'cronos402/client'
 import { createSigner } from 'cronos402'
 
-// Create signer for EVM network
-const evmSigner = await createSigner('${CRONOS_NETWORK.TESTNET}', process.env.EVM_PRIVATE_KEY!) // dev only; secure in prod
-const url = new URL("${baseUrl}")
+// Direct + Wallet: Connect directly to MCP Gateway
+// Your wallet signs x402 payments when tools require payment
+const PRIVATE_KEY = process.env.EVM_PRIVATE_KEY! // 0x-prefixed hex string
 
-// Create transport
+// Create signer for Cronos testnet
+const evmSigner = await createSigner('${CRONOS_NETWORK.TESTNET}', PRIVATE_KEY)
+console.log('Wallet:', evmSigner.account.address)
+
+// Connect to MCP Gateway directly (no auth proxy needed)
+const url = new URL("${baseUrl}")
 const transport = new StreamableHTTPClientTransport(url)
 
-// Initialize MCP client
 const client = new Client({ name: 'my-mcp-client', version: '1.0.0' }, { capabilities: {} })
 await client.connect(transport)
 
-// Wrap client with X402 payment capabilities
+// Wrap client with x402 payment capabilities
 const paymentClient = withX402Client(client, {
   wallet: { evm: evmSigner },
-  maxPaymentValue: BigInt(0.1 * 10 ** 6) // limit max on‑chain value (base units, e.g. 6‑decimals for USDC)
+  maxPaymentValue: BigInt(100000), // Max 0.1 USDC (6 decimals)
+  confirmationCallback: async (accepts) => {
+    console.log('Payment required:', accepts[0]?.maxAmountRequired)
+    return true // Auto-approve for this example
+  }
 })
 
 const tools = await paymentClient.listTools()
-console.log('Available tools:', tools)`
+console.log('Available tools:', tools.tools.map(t => t.name))`
     } else {
+      // API Key via Proxy: Use auth proxy with API key header
+      const proxyUrl = `http://localhost:3005/mcp?target-url=\${btoa("${baseUrl}")}`
       return `import { StreamableHTTPClientTransport } from "@modelcontextprotocol/sdk/client/transport/streamable-http";
 import { Client } from "@modelcontextprotocol/sdk/client/index";
 
-const url = new URL("${baseUrl}");
-${apiKey ? `url.searchParams.set("api_key", "${apiKey}");` : `// url.searchParams.set("api_key", "<API_KEY>");`}
-const transport = new StreamableHTTPClientTransport(url.toString());
+// API Key via Proxy: Auth proxy handles authentication
+const API_KEY = ${apiKey ? `"${apiKey}"` : `process.env.CRONOS402_API_KEY!`}
+const directUrl = "${baseUrl}"
+const proxyUrl = \`http://localhost:3005/mcp?target-url=\${btoa(directUrl)}\`
+
+const transport = new StreamableHTTPClientTransport(proxyUrl, {
+  requestInit: {
+    headers: { 'x-api-key': API_KEY }
+  }
+});
 
 const client = new Client({ name: "My App", version: "1.0.0" });
 await client.connect(transport);
 
 const tools = await client.listTools();
-console.log("Available tools:", tools.map(t => t.name).join(", "));`
+console.log("Available tools:", tools.tools.map(t => t.name).join(", "));`
     }
   },
 
@@ -202,6 +224,7 @@ console.log("Available tools:", tools.map(t => t.name).join(", "));`
       return `from mcp import ClientSession
 from mcp.client.streamable_http import streamablehttp_client
 
+# OAuth: Direct connection (no auth needed)
 base_url = "${baseUrl}"
 
 async def main():
@@ -211,18 +234,24 @@ async def main():
             tools = await session.list_tools()
             print("Available tools:", ", ".join([t.name for t in tools.tools]))`
     } else if (authMode === 'private_key') {
-      return `from mcp import ClientSession
-from mcp.client.streamable_http import streamablehttp_client
-from urllib.parse import urlencode
+      return `# Direct + Wallet: Python SDK doesn't have built-in x402 support yet
+# Use the CLI for wallet-based payments:
+#
+#   cronos402 connect \\
+#     --urls "${baseUrl}" \\
+#     --evm "0xYOUR_PRIVATE_KEY" \\
+#     --network ${CRONOS_NETWORK.TESTNET}
+#
+# Or use the TypeScript SDK which has full x402 support.
 
+from mcp import ClientSession
+from mcp.client.streamable_http import streamablehttp_client
+
+# For read-only access (no payments):
 base_url = "${baseUrl}"
-with open("<PRIVATE_KEY_PATH>", "r") as f:
-    private_key = f.read().strip()
-params = { "private_key": private_key }
-url = f"{base_url}?{urlencode(params)}"
 
 async def main():
-    async with streamablehttp_client(url) as (read, write, _):
+    async with streamablehttp_client(base_url) as (read, write, _):
         async with ClientSession(read, write) as session:
             await session.initialize()
             tools = await session.list_tools()
@@ -230,14 +259,16 @@ async def main():
     } else {
       return `from mcp import ClientSession
 from mcp.client.streamable_http import streamablehttp_client
-from urllib.parse import urlencode
+from base64 import b64encode
 
-base_url = "${baseUrl}"
-params = ${apiKey ? `{ "api_key": "${apiKey}" }` : `{}`}
-url = f"{base_url}?{urlencode(params)}" if params else base_url
+# API Key via Proxy: Auth proxy handles authentication
+API_KEY = ${apiKey ? `"${apiKey}"` : `"YOUR_API_KEY"`}
+direct_url = "${baseUrl}"
+proxy_url = f"http://localhost:3005/mcp?target-url={b64encode(direct_url.encode()).decode()}"
 
 async def main():
-    async with streamablehttp_client(url) as (read, write, _):
+    headers = {"x-api-key": API_KEY}
+    async with streamablehttp_client(proxy_url, headers=headers) as (read, write, _):
         async with ClientSession(read, write) as session:
             await session.initialize()
             tools = await session.list_tools()
