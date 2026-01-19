@@ -1,5 +1,6 @@
 "use client"
 
+import { useState, useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
@@ -8,9 +9,15 @@ import { Moon, Sun } from "lucide-react"
 
 export default function Footer() {
     const { isDark, toggleTheme } = useTheme()
+    const [mounted, setMounted] = useState(false)
 
-    const symbolSrc = isDark ? "/Cronos402-symbol-light.svg" : "/Cronos402-symbol-dark.svg"
-    const logoSrc = isDark ? "/Cronos402-logo-light.svg" : "/Cronos402-logo-dark.svg"
+    useEffect(() => {
+        setMounted(true)
+    }, [])
+
+    // Use consistent value for SSR to avoid hydration mismatch
+    const symbolSrc = mounted ? (isDark ? "/Cronos402-symbol-light.svg" : "/Cronos402-symbol-dark.svg") : "/Cronos402-symbol-dark.svg"
+    const logoSrc = mounted ? (isDark ? "/Cronos402-logo-light.svg" : "/Cronos402-logo-dark.svg") : "/Cronos402-logo-dark.svg"
     const year = new Date().getFullYear()
 
     return (

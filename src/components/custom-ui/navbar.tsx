@@ -24,6 +24,12 @@ export default function Navbar() {
   const { data: session, isPending: sessionLoading } = useSession()
   const { isOpen, defaultTab, openModal, closeModal } = useAccountModal()
   const [menuOpen, setMenuOpen] = useState(false)
+  const [mounted, setMounted] = useState(false)
+
+  // Track mount for hydration safety
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   // Hash detection for auto-opening account modal (only on mount)
   useEffect(() => {
@@ -36,15 +42,10 @@ export default function Navbar() {
     }
   }, []) // Empty dependency array - only run on mount
 
-  // Read theme directly from DOM on mount to prevent flash (set by blocking script)
-  const [initialIsDark] = useState(() => {
-    if (typeof window === 'undefined') return false;
-    return document.documentElement.classList.contains('dark');
-  });
-  
-  // Use initial theme for logos to prevent flash, then sync with hook
-  const logoSrc = (initialIsDark || isDark) ? "/Cronos402-logo-light.svg" : "/Cronos402-logo-dark.svg"
-  const symbolSrc = (initialIsDark || isDark) ? "/Cronos402-symbol-light.svg" : "/Cronos402-symbol-dark.svg"
+  // Use consistent value for SSR, then update after mount to avoid hydration mismatch
+  // Default to dark logo for SSR (matches common dark mode preference)
+  const logoSrc = mounted ? (isDark ? "/Cronos402-logo-light.svg" : "/Cronos402-logo-dark.svg") : "/Cronos402-logo-dark.svg"
+  const symbolSrc = mounted ? (isDark ? "/Cronos402-symbol-light.svg" : "/Cronos402-symbol-dark.svg") : "/Cronos402-symbol-dark.svg"
 
   const linkClasses =
     "h-8 px-2 font-mono text-[13px] tracking-wider text-muted-foreground hover:text-foreground hover:underline hover:decoration-dotted underline-offset-2"

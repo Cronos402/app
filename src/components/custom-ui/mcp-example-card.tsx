@@ -40,19 +40,28 @@ export default function McpExampleCard({
   const [loadingRequests, setLoadingRequests] = useState(true)
 
   useEffect(() => {
-    if (!serverId) {
-      setLoading(false)
-      setLoadingRequests(false)
-      return
-    }
-
-    // Fetch server data directly using serverId
     const fetchData = async () => {
       setLoading(true)
       setLoadingRequests(true)
-      
+
       try {
-        const serverData = await mcpDataApi.getServerById(serverId)
+        let targetServerId = serverId
+
+        // If no serverId provided, fetch the first available server
+        if (!targetServerId) {
+          const serversResponse = await mcpDataApi.getServers(1, 0)
+          if (serversResponse.servers && serversResponse.servers.length > 0) {
+            targetServerId = serversResponse.servers[0].id
+          } else {
+            // No servers available
+            setData(null)
+            setLoading(false)
+            setLoadingRequests(false)
+            return
+          }
+        }
+
+        const serverData = await mcpDataApi.getServerById(targetServerId)
         setData({
           serverId: serverData.serverId,
           origin: serverData.origin,
@@ -71,7 +80,7 @@ export default function McpExampleCard({
         setLoading(false)
       }
     }
-    
+
     fetchData()
   }, [serverId])
 

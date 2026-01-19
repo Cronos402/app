@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Switch } from "@/components/ui/switch"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Dialog, DialogContent, DialogFooter, DialogHeader } from "@/components/ui/dialog"
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Drawer, DrawerContent, DrawerFooter, DrawerHeader, DrawerTitle } from "@/components/ui/drawer"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -1084,7 +1084,7 @@ export function MonetizeWizard({ open, onOpenChange, serverUrl, tools, initialAu
       <DialogContent className="sm:max-w-2xl md:max-w-3xl lg:max-w-4xl w-[min(96vw,900px)] min-h-[80vh] max-h-[80vh] flex flex-col rounded-[2px]">
         <DialogHeader className="pb-6">
           <div className="space-y-1">
-            <h2 className="text-lg sm:text-xl lg:text-2xl font-bold font-host text-foreground leading-tight">{currentLabel}</h2>
+            <DialogTitle className="text-lg sm:text-xl lg:text-2xl font-bold font-host text-foreground leading-tight">{currentLabel}</DialogTitle>
             <div className="text-base font-inter text-muted-foreground">{stepDescription}</div>
           </div>
         </DialogHeader>

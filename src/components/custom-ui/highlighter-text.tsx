@@ -39,7 +39,7 @@ const highlighterIconVariants = cva(
   }
 )
 
-interface HighlighterTextProps extends React.HTMLAttributes<HTMLDivElement>, VariantProps<typeof highlighterTextVariants> {
+interface HighlighterTextProps extends React.HTMLAttributes<HTMLSpanElement>, VariantProps<typeof highlighterTextVariants> {
   children: React.ReactNode
   icon?: LucideIcon
 }
@@ -53,27 +53,27 @@ export default function HighlighterText({
 }: HighlighterTextProps) {
   if (Icon) {
     return (
-      <div className="inline-flex items-center gap-1.5">
-        <div className={cn(highlighterIconVariants({ variant }))}>
+      <span className="inline-flex items-center gap-1.5">
+        <span className={cn(highlighterIconVariants({ variant }))}>
           <Icon className="size-4" />
-        </div>
-        <div
+        </span>
+        <span
           className={cn(highlighterTextVariants({ variant }), className)}
           {...props}
         >
           {children}
-        </div>
-      </div>
+        </span>
+      </span>
     )
   }
 
   return (
-    <div
+    <span
       className={cn(highlighterTextVariants({ variant }), className)}
       {...props}
     >
       {children}
-    </div>
+    </span>
   )
 }
 
