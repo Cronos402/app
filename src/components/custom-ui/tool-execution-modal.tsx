@@ -5,12 +5,10 @@ import { useTheme } from "@/components/providers/theme-context"
 import { usePrimaryWallet, useUser, useUserWallets } from "@/components/providers/user"
 import { useAccountModal } from "@/components/hooks/use-account-modal"
 import { AccountModal } from "@/components/custom-ui/account-modal"
-import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Drawer, DrawerContent, DrawerDescription, DrawerHeader, DrawerTitle } from "@/components/ui/drawer"
 import { Input } from "@/components/ui/input"
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Textarea } from "@/components/ui/textarea"
 import { createInjectedSigner } from "@/lib/client/signer"
 import { switchToNetwork } from "@/lib/client/wallet-utils"
@@ -27,7 +25,6 @@ import { StreamableHTTPClientTransport } from "@modelcontextprotocol/sdk/client/
 import {
   AlertCircle,
   CheckCircle,
-  ChevronDown,
   Copy,
   Loader2,
   Play,
@@ -185,9 +182,8 @@ export function ToolExecutionModal({ isOpen, onClose, tool, serverId, url }: Too
   const themeClasses = getThemeClasses(isDark)
   const { isOpen: isAccountModalOpen, openModal: openAccountModal, closeModal: closeAccountModal } = useAccountModal()
 
-  // State for selected wallet (defaults to primary wallet)
+  // State for selected wallet (defaults to primary wallet, kept for future use)
   const [selectedWallet, setSelectedWallet] = useState<UserWallet | null>(null)
-  const [walletPopoverOpen, setWalletPopoverOpen] = useState(false)
 
   // Set selected wallet to primary when primary wallet changes
   useEffect(() => {
@@ -199,18 +195,24 @@ export function ToolExecutionModal({ isOpen, onClose, tool, serverId, url }: Too
 
 
   // Get wallet connection status
+  // SIMPLIFIED: Allow ANY connected MetaMask wallet for tool execution
+  // Linked wallets are for convenience/profile, not a requirement for signing
   const activeWallet = selectedWallet || primaryWallet
-  const walletAddress = activeWallet?.walletAddress
-  const hasAccountWallets = hasWallets() && !!walletAddress
-
-  // Check if selected wallet requires browser connection
-  const requiresBrowserConnection = activeWallet?.walletType === 'external'
   const hasWalletClient = !!walletClient
-  const needsBrowserConnection = requiresBrowserConnection && (!isBrowserWalletConnected || connectedWalletAddress?.toLowerCase() !== walletAddress?.toLowerCase())
-  const needsWalletClient = requiresBrowserConnection // Only external wallets need wagmi wallet client
 
-  // Overall connection status
-  const isConnected = hasAccountWallets && (!needsWalletClient || hasWalletClient) && !needsBrowserConnection
+  // Use the CONNECTED wallet address for actual signing (not linked wallet)
+  // This allows users to sign with any wallet in MetaMask
+  const paymentWalletAddress = connectedWalletAddress
+
+  // For display purposes, show linked wallet info if available
+  const displayWalletAddress = paymentWalletAddress || activeWallet?.walletAddress
+
+  // Connection status is simple: is MetaMask connected with a wallet client?
+  const isConnected = isBrowserWalletConnected && hasWalletClient && !!paymentWalletAddress
+
+  // Legacy: keep for UI that shows linked wallets
+  const hasAccountWallets = hasWallets() && !!activeWallet?.walletAddress
+  const needsBrowserConnection = !isConnected
 
   // Create stable tool reference to avoid infinite loops
   const toolInputSchemaString = useMemo(() => JSON.stringify(tool?.inputSchema), [tool?.inputSchema])
@@ -481,9 +483,9 @@ export function ToolExecutionModal({ isOpen, onClose, tool, serverId, url }: Too
   // =============================================================================
 
   useEffect(() => {
-    if (!isOpen || !isConnected || !walletAddress || !stableTool || isInitialized) return
-    // Only check for walletClient if it's an external wallet that needs it
-    if (needsWalletClient && !walletClient) return
+    if (!isOpen || !isConnected || !paymentWalletAddress || !stableTool || isInitialized) return
+    // Only check for walletClient if using external wallet (browser wallet)
+    if (!walletClient) return
 
     const initializeMcpClient = async () => {
       try {
@@ -519,7 +521,7 @@ export function ToolExecutionModal({ isOpen, onClose, tool, serverId, url }: Too
         } else {
           // Managed wallets: do not set signer; server will auto-sign via CDP
           log.info("Using managed wallet - client-side signing disabled; server will auto-sign if needed", {
-            address: walletAddress,
+            address: paymentWalletAddress,
             walletType: activeWallet?.walletType
           })
         }
@@ -530,9 +532,9 @@ export function ToolExecutionModal({ isOpen, onClose, tool, serverId, url }: Too
             credentials: 'include',
             mode: 'cors',
             headers: {
-              'X-Wallet-Type': activeWallet?.walletType || 'unknown',
-              'X-Wallet-Address': walletAddress || '',
-              'X-Wallet-Provider': activeWallet?.provider || 'unknown',
+              'X-Wallet-Type': 'external', // Always external since using browser wallet
+              'X-Wallet-Address': paymentWalletAddress || '',
+              'X-Wallet-Provider': 'metamask',
               // Explicitly include cookies if available
               ...(document.cookie ? { 'Cookie': document.cookie } : {}),
             }
@@ -543,9 +545,9 @@ export function ToolExecutionModal({ isOpen, onClose, tool, serverId, url }: Too
           url: mcpUrl.toString(),
           credentials: 'include',
           headers: {
-            'X-Wallet-Type': activeWallet?.walletType || 'unknown',
-            'X-Wallet-Address': walletAddress || '',
-            'X-Wallet-Provider': activeWallet?.provider || 'unknown',
+            'X-Wallet-Type': 'external',
+            'X-Wallet-Address': paymentWalletAddress || '',
+            'X-Wallet-Provider': 'metamask',
           },
           cookies: document.cookie ? 'present' : 'missing',
           cookieDetails: document.cookie,
@@ -704,7 +706,7 @@ export function ToolExecutionModal({ isOpen, onClose, tool, serverId, url }: Too
     }
 
     initializeMcpClient()
-  }, [isOpen, isConnected, walletAddress, stableTool, serverId, walletClient, isInitialized, needsWalletClient, activeWallet, getCurrentNetwork, getRequiredNetwork, url])
+  }, [isOpen, isConnected, paymentWalletAddress, stableTool, serverId, walletClient, isInitialized, activeWallet, getCurrentNetwork, getRequiredNetwork, url])
 
   // Cleanup when modal closes
   useEffect(() => {
@@ -714,7 +716,6 @@ export function ToolExecutionModal({ isOpen, onClose, tool, serverId, url }: Too
       setMcpToolsCollection({})
       setExecution({ status: 'idle' })
       setIsSwitchingNetwork(false)
-      setWalletPopoverOpen(false)
       setJsonEditorStates({})
     }
   }, [isOpen])
@@ -732,8 +733,8 @@ export function ToolExecutionModal({ isOpen, onClose, tool, serverId, url }: Too
 
   const executeTool = async () => {
     if (!stableTool || !mcpClient || !isInitialized) return
-    // For external wallets, ensure wallet client is available
-    if (needsWalletClient && !walletClient) return
+    // Ensure wallet client is available for signing
+    if (!walletClient) return
 
     setExecution({ status: 'executing' })
 
@@ -745,7 +746,7 @@ export function ToolExecutionModal({ isOpen, onClose, tool, serverId, url }: Too
         throw new Error(`Tool "${stableTool.name}" not found in MCP server`)
       }
 
-      log.info(`[Execute] Starting`, { tool: stableTool.name, walletType: activeWallet?.walletType, walletAddress, inputs: toolInputs })
+      log.info(`[Execute] Starting`, { tool: stableTool.name, walletType: 'external', paymentWalletAddress, inputs: toolInputs })
       log.debug(`[Execute] Schema`, mcpTool.parameters?.jsonSchema || mcpTool.inputSchema?.jsonSchema)
 
       // Execute the tool using the MCP client's callTool method
@@ -1413,82 +1414,16 @@ export function ToolExecutionModal({ isOpen, onClose, tool, serverId, url }: Too
         <div className="p-3 rounded-md border bg-muted/30 border-border">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
+              <CheckCircle className="w-4 h-4 text-teal-600 dark:text-teal-400" />
               <span className="text-sm font-medium text-foreground">
-                {activeWallet?.walletType === 'managed' ? 'Cronos402 Wallet' : (activeWallet?.provider || 'Wallet')} ({formatWalletAddress(walletAddress || '')})
+                Connected: {formatWalletAddress(paymentWalletAddress || '')}
               </span>
-              {needsBrowserConnection && (
-                <div className="flex items-center gap-1 text-yellow-600 dark:text-yellow-400" title="Connection required">
-                  <AlertCircle className="h-3 w-3" />
-                </div>
-              )}
             </div>
-
-            <div className="flex items-center gap-2">
-              {needsBrowserConnection && (
-                <ConnectButton />
-              )}
-              {userWallets.length > 1 && (
-                <Popover open={walletPopoverOpen} onOpenChange={setWalletPopoverOpen}>
-                  <PopoverTrigger asChild>
-                    <Button
-                      type="button"
-                      variant="outline"
-                      size="sm"
-                      className="text-xs px-3 py-1 h-7 rounded-sm"
-                    >
-                      Change Wallet
-                      <ChevronDown className="h-3 w-3 ml-1" />
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-80 p-0" align="end">
-                    <div className="p-4">
-                      <h5 className="text-sm font-medium mb-3 text-foreground">Select Payment Wallet</h5>
-                      <div className="space-y-2">
-                        {[...userWallets]
-                          .sort((a, b) => {
-                            if (a.isPrimary && !b.isPrimary) return -1
-                            if (!a.isPrimary && b.isPrimary) return 1
-                            return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-                          })
-                          .map((wallet) => (
-                            <div
-                              key={wallet.id}
-                              onClick={() => {
-                                setSelectedWallet(wallet)
-                                setWalletPopoverOpen(false)
-                              }}
-                              className={`p-3 rounded-md border cursor-pointer transition-all duration-300 ${selectedWallet?.id === wallet.id
-                                  ? 'border-teal-500 bg-teal-500/10 dark:bg-teal-800/50'
-                                  : 'border-border hover:border-border hover:bg-muted/40'
-                                }`}
-                            >
-                              <div className="flex items-center justify-between">
-                                <div className="flex items-center gap-2">
-                                  <span className="font-mono text-sm text-foreground">
-                                    {formatWalletAddress(wallet.walletAddress)}
-                                  </span>
-                                  {wallet.isPrimary && (
-                                    <Badge variant="secondary" className="text-xs">Primary</Badge>
-                                  )}
-                                </div>
-                                {selectedWallet?.id === wallet.id && (
-                                  <CheckCircle className="w-4 h-4 text-teal-600 dark:text-teal-400" />
-                                )}
-                              </div>
-                            </div>
-                          ))}
-                      </div>
-                    </div>
-                  </PopoverContent>
-                </Popover>
-              )}
-            </div>
+            <ConnectButton />
           </div>
-          {needsBrowserConnection && (
-            <p className="text-xs text-yellow-600 dark:text-yellow-400 mt-2">
-              Browser wallet connection required
-            </p>
-          )}
+          <p className="text-xs text-muted-foreground mt-2">
+            Using your connected MetaMask wallet for transactions
+          </p>
         </div>
       </div>
     )

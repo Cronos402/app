@@ -200,6 +200,53 @@
     @apply bg-background text-foreground;
   }
 
+  /* RainbowKit modal - ensure it works inside Radix dialogs */
+  /* The root cause: Radix Dialog sets pointer-events: none on body, blocking RainbowKit */
+  /* Solution: Override with pointer-events: auto and high z-index */
+  [data-rk] {
+    z-index: 2147483647 !important;
+    pointer-events: auto !important;
+  }
+
+  /* Target RainbowKit modal container specifically */
+  [data-rk] > div[role="dialog"] {
+    z-index: 2147483647 !important;
+    pointer-events: auto !important;
+  }
+
+  /* Target RainbowKit overlay/backdrop */
+  [data-rk] > div[aria-hidden="true"] {
+    z-index: 2147483646 !important;
+    pointer-events: auto !important;
+  }
+
+  /* Target connect modal specifically using aria-labelledby */
+  [data-rk] [aria-labelledby="rk_connect_title"] {
+    z-index: 2147483647 !important;
+    pointer-events: auto !important;
+  }
+
+  /* Target account modal (disconnect, switch network, etc.) */
+  [data-rk] [aria-labelledby="rk_account_title"] {
+    z-index: 2147483647 !important;
+    pointer-events: auto !important;
+  }
+
+  /* Ensure RainbowKit portal wrapper is not constrained */
+  [data-rk] [role="presentation"] {
+    z-index: 2147483647 !important;
+    pointer-events: auto !important;
+  }
+
+  /* Ensure all RainbowKit interactive elements can receive pointer events */
+  [data-rk] button,
+  [data-rk] a,
+  [data-rk] [role="button"],
+  [data-rk] [role="listbox"],
+  [data-rk] [role="option"] {
+    pointer-events: auto !important;
+  }
+
   ::-webkit-scrollbar {
     width: 8px;
   }

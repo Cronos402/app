@@ -95,7 +95,7 @@ export function UserAccountPanel({ isActive = true, initialTab }: UserAccountPan
   const [error, setError] = useState<string>("")
 
   const [wallets, setWallets] = useState<Wallet[]>([])
-  const [walletsLoading, setWalletsLoading] = useState(false)
+  const [walletsLoading, setWalletsLoading] = useState(true) // Start true to prevent flash of RainbowKitWalletConnector
   const [copiedMap, setCopiedMap] = useState<Record<string, boolean>>({})
   const [apiKeys, setApiKeys] = useState<ApiKey[]>([])
   const [apiKeysLoading, setApiKeysLoading] = useState(false)
