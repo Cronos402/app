@@ -21,12 +21,14 @@ const SUPPORTED_BY_LOGOS = [
     href: "https://cronos.org",
     srcLight: "/logos/cronos light bg.png",  // Dark logo for light mode
     srcDark: "/logos/cronos dark bg.png",    // White logo for dark mode
+    invertInLightMode: false,
   },
   {
     name: "crypto-com",
     href: "https://crypto.com",
-    srcLight: "/logos/crypto-com-logo.png",
+    srcLight: "/logos/crypto-com-logo.png",  // White logo - needs invert in light mode
     srcDark: "/logos/crypto-com-logo.png",
+    invertInLightMode: true,  // Invert white logo to black in light mode
   },
 ] as const
 
@@ -76,7 +78,8 @@ const renderLogo = (logo: typeof SUPPORTED_BY_LOGOS[number], index?: number) => 
             height={logoSize.height}
             className={cn(
               "transition-all duration-300 opacity-80 group-hover:opacity-100 dark:hidden object-contain",
-              logoSize.className
+              logoSize.className,
+              logo.invertInLightMode && "invert"  // Invert white logos to black in light mode
             )}
           />
           {/* Dark mode logo (shown in dark mode) */}
