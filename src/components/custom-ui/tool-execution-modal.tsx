@@ -563,7 +563,8 @@ export function ToolExecutionModal({ isOpen, onClose, tool, serverId, url }: Too
 
         // Wrap with x402 only when we have a signer (external wallet)
         const augmentedClient = evmSigner
-          ? withX402Client(mcpClient, {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          ? withX402Client(mcpClient as any, {
               wallet: { evm: evmSigner },
               maxPaymentValue: BigInt(0.1 * 10 ** 6), // 0.1 USDC max
               confirmationCallback: async (accepts) => true

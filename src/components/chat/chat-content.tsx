@@ -77,7 +77,8 @@ export function ChatContent({ serverId, conversationId, serverUrl }: ChatContent
         if (isWalletConnected && walletClient?.account) {
           const evmSigner = createInjectedSigner('cronos', walletClient.account as Account) as unknown as MultiNetworkSigner['evm'];
 
-          finalClient = withX402Client(client, {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          finalClient = withX402Client(client as any, {
             wallet: { evm: evmSigner },
             maxPaymentValue: BigInt(0.1 * 10 ** 6), // 0.1 USDC max
             confirmationCallback: async (accepts) => {
@@ -112,6 +113,7 @@ export function ChatContent({ serverId, conversationId, serverUrl }: ChatContent
     sendMessage,
     status,
     error,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } = useChat({
     api: '/api/chat',
     id: conversationId,
@@ -133,7 +135,6 @@ export function ChatContent({ serverId, conversationId, serverUrl }: ChatContent
         const result = await mcpClient.callTool({
           name: toolCall.toolName,
           arguments: toolCall.args as Record<string, unknown>,
-          toolCallId: toolCall.toolCallId,
         });
 
         console.log('[Chat] Tool execution success:', result);
@@ -159,8 +160,8 @@ export function ChatContent({ serverId, conversationId, serverUrl }: ChatContent
         throw error;
       }
     },
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } as Parameters<typeof useChat>[0]);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } as any);
 
   const isLoading = status === 'streaming';
 
