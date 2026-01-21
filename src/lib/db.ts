@@ -1,6 +1,6 @@
 import { drizzle } from 'drizzle-orm/node-postgres';
 import { Pool } from 'pg';
-import * as schema from '../../../mcp/auth-schema';
+import * as schema from './auth-schema';
 
 // Create PostgreSQL connection pool
 const pool = new Pool({
@@ -11,4 +11,4 @@ const pool = new Pool({
 export const db = drizzle(pool, { schema });
 
 // Export schema for use in queries
-export * from '../../../mcp/auth-schema';
+export * from './auth-schema';
