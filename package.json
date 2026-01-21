@@ -35,6 +35,7 @@
     "@radix-ui/react-switch": "^1.2.6",
     "@radix-ui/react-tabs": "^1.1.12",
     "@radix-ui/react-tooltip": "^1.2.7",
+    "@rainbow-me/rainbowkit": "^2.2.10",
     "@react-native-async-storage/async-storage": "^2.2.0",
     "@react-three/drei": "^10.7.6",
     "@react-three/fiber": "^9.4.0",
@@ -47,7 +48,7 @@
     "better-auth": "^1.2.12",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
-    "cronos402": "workspace:*",
+    "cronos402": "^0.1.0",
     "dotenv": "^17.2.3",
     "drizzle-orm": "^0.44.1",
     "hono": "^4.9.12",
@@ -89,5 +90,11 @@
     "tsx": "^4.19.4",
     "tw-animate-css": "^1.3.5",
     "typescript": "^5.8.3"
+  },
+  "pnpm": {
+    "overrides": {
+      "wagmi": "2.17.5",
+      "viem": "2.37.13"
+    }
   }
 }
