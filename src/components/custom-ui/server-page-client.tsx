@@ -117,7 +117,7 @@ export function ServerPageClient({ serverId, initialData }: ServerPageClientProp
   const [reindexing, setReindexing] = useState(false)
   const [showToolModal, setShowToolModal] = useState(false)
   const [selectedTool, setSelectedTool] = useState<ToolFromMcpServerWithStats | null>(null)
-  const [activeTab, setActiveTab] = useState<'tools' | 'payments' | 'connect'>('tools')
+  const [activeTab, setActiveTab] = useState<'tools' | 'payments' | 'connect' | 'chat'>('tools')
   const [expandedTools, setExpandedTools] = useState<Set<string>>(new Set())
   const [expandedNetworkDetails, setExpandedNetworkDetails] = useState<Set<string>>(new Set())
   const [toolsSearch, setToolsSearch] = useState("")
@@ -414,11 +414,12 @@ export function ServerPageClient({ serverId, initialData }: ServerPageClientProp
             </div>
 
             {/* Tabs */}
-            <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as 'tools' | 'payments' | 'connect')} className="mb-6">
+            <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as 'tools' | 'payments' | 'connect' | 'chat')} className="mb-6">
               <TabsList size="tall" variant="equal" className="max-w-md">
                 <TabsTrigger value="tools" size="tall" variant="highlight">TOOLS</TabsTrigger>
                 <TabsTrigger value="payments" size="tall" variant="highlight">PAYMENTS</TabsTrigger>
                 <TabsTrigger value="connect" size="tall" variant="highlight">CONNECT</TabsTrigger>
+                <TabsTrigger value="chat" size="tall" variant="highlight">CHAT</TabsTrigger>
               </TabsList>
 
               {/* TOOLS Tab */}
@@ -903,6 +904,44 @@ export function ServerPageClient({ serverId, initialData }: ServerPageClientProp
                         initialAuthMode="oauth"
                       />
                     )}
+                  </div>
+                  <div className="lg:col-span-1">
+                    <ServerDetailsCard
+                      details={{
+                        deploymentRef: data.indexedAt ? `indexed ${formatRelative(data.indexedAt)}` : undefined,
+                        license: (data as unknown as { info?: { license?: string } })?.info?.license,
+                        isLocal: /localhost|127\.0\.0\.1/.test(data.origin),
+                        publishedAt: (data as unknown as { info?: { publishedAt?: string } })?.info?.publishedAt,
+                        repo: (data as unknown as { info?: { repo?: string } })?.info?.repo,
+                        homepage: (data as unknown as { info?: { homepage?: string } })?.info?.homepage,
+                      }}
+                      onRefresh={handleRefresh}
+                      isRefreshing={reindexing}
+                    />
+                  </div>
+                </div>
+              </TabsContent>
+
+              {/* CHAT Tab */}
+              <TabsContent value="chat" className="mt-6">
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                  <div className="lg:col-span-2">
+                    <div className="bg-card rounded-[2px] p-6 space-y-4">
+                      <div className="space-y-2">
+                        <h3 className="text-lg font-semibold">Chat with this MCP Server</h3>
+                        <p className="text-sm text-muted-foreground">
+                          Start a conversation with AI to interact with this server&apos;s tools.
+                          Payment for tools will be handled automatically when needed.
+                        </p>
+                      </div>
+                      <Button
+                        onClick={() => window.location.href = `/servers/${serverId}/chat`}
+                        size="lg"
+                        className="w-full sm:w-auto"
+                      >
+                        Start New Conversation
+                      </Button>
+                    </div>
                   </div>
                   <div className="lg:col-span-1">
                     <ServerDetailsCard
