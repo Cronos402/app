@@ -6,7 +6,7 @@
     "dev": "next dev --turbopack --port 3002",
     "dev:no-turbo": "next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "next start --port 3002",
     "lint": "next lint",
     "db:apply-changes": "drizzle-kit push",
     "db:generate-migrations": "drizzle-kit generate",
