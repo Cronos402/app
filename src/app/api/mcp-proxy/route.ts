@@ -162,20 +162,14 @@ export async function POST(request: Request) {
   const validOrigin = getValidOrigin(request)
   const upstreamSessionId = response.headers.get('MCP-Session-Id') || response.headers.get('mcp-session-id') || ''
   
-  // Build response headers - include Content-Encoding if present to handle gzip
+  // Build response headers - DO NOT forward Content-Encoding because fetch auto-decompresses
   const responseHeaders: Record<string, string> = {
     'Content-Type': response.headers.get('Content-Type') || 'application/json',
     'Access-Control-Allow-Origin': validOrigin || '*',
     'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
     'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-Wallet-Type, X-Wallet-Address, X-Wallet-Provider, MCP-Session-Id, mcp-session-id, x-api-key, WWW-Authenticate',
-    'Access-Control-Expose-Headers': 'MCP-Session-Id, WWW-Authenticate, Content-Encoding',
+    'Access-Control-Expose-Headers': 'MCP-Session-Id, WWW-Authenticate',
     'Access-Control-Allow-Credentials': validOrigin ? 'true' : 'false',
-  }
-
-  // Forward Content-Encoding if present (handles gzip responses)
-  const contentEncoding = response.headers.get('Content-Encoding')
-  if (contentEncoding) {
-    responseHeaders['Content-Encoding'] = contentEncoding
   }
 
   if (upstreamSessionId) {
@@ -261,20 +255,14 @@ export async function GET(request: Request) {
   const validOrigin = getValidOrigin(request)
   const upstreamSessionId = response.headers.get('MCP-Session-Id') || response.headers.get('mcp-session-id') || ''
 
-  // Build response headers - include Content-Encoding if present to handle gzip
+  // Build response headers - DO NOT forward Content-Encoding because fetch auto-decompresses
   const responseHeaders: Record<string, string> = {
     'Content-Type': response.headers.get('Content-Type') || 'application/json',
     'Access-Control-Allow-Origin': validOrigin || '*',
     'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
     'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-Wallet-Type, X-Wallet-Address, X-Wallet-Provider, MCP-Session-Id, mcp-session-id, x-api-key, WWW-Authenticate',
-    'Access-Control-Expose-Headers': 'MCP-Session-Id, WWW-Authenticate, Content-Encoding',
+    'Access-Control-Expose-Headers': 'MCP-Session-Id, WWW-Authenticate',
     'Access-Control-Allow-Credentials': validOrigin ? 'true' : 'false',
-  }
-
-  // Forward Content-Encoding if present (handles gzip responses)
-  const getContentEncoding = response.headers.get('Content-Encoding')
-  if (getContentEncoding) {
-    responseHeaders['Content-Encoding'] = getContentEncoding
   }
 
   if (upstreamSessionId) {
