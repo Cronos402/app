@@ -149,14 +149,15 @@ export default function McpExampleCard({
         {/* Image + Title Section */}
         <div className="flex flex-col gap-0.5">
           <div className="flex items-center gap-4">
-            {/* Square black image - bigger with same rounded corners as tools, smaller on mobile */}
-            <div className="w-16 h-16 sm:w-40 sm:h-40 bg-black rounded-[2px] flex-shrink-0 flex items-center justify-center p-4 sm:p-12">
-              <Image 
-                src="/x-logo.svg" 
-                alt="X Logo" 
-                width={80} 
-                height={80} 
-                className="w-full h-full object-contain"
+            {/* Show logo image full, no black box */}
+            <div className="flex-shrink-0">
+              <Image
+                src="/crypto-com.png"
+                alt="Crypto.com Logo"
+                width={160}
+                height={160}
+                className="w-16 h-16 sm:w-40 sm:h-40 object-contain"
+                style={{ background: "none" }}
               />
             </div>
             
@@ -168,8 +169,6 @@ export default function McpExampleCard({
               
               {/* Description - hidden on mobile, shown next to title on desktop */}
               <p className="hidden sm:block text-sm sm:text-base text-muted-foreground">
-                <span className="text-foreground">Regular subscription</span>{" "}
-                <HighlighterText variant="red">$200 /month</HighlighterText>{" "}
                 <span className="text-foreground">via Cronos402</span>{" "}
                 <HighlighterText variant="green">$0.05 /tool</HighlighterText>
               </p>
