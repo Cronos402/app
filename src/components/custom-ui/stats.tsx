@@ -4,7 +4,6 @@ import * as React from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
-import StatsCard from "./stats-card"
 import MinimalExplorer from "./minimal-explorer"
 
 interface StatsProps extends React.HTMLAttributes<HTMLElement> {
@@ -31,18 +30,9 @@ export default function Stats({
           </h2>
         </div>
 
-        {/* Stats Cards */}
-        <div className="flex flex-col gap-6">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <StatsCard label="TRANSACTIONS" value="+ 100,000" />
-            <StatsCard label="VOLUME" value="+ $30,000" />
-            <StatsCard label="USERS" value="+ 2,500" />
-          </div>
-
-          {/* Minimal Explorer Card */}
-          <div className="rounded-[2px] bg-card py-2">
-            <MinimalExplorer />
-          </div>
+        {/* Minimal Explorer Card */}
+        <div className="rounded-[2px] bg-card py-2">
+          <MinimalExplorer />
         </div>
 
         {/* Explorer CTA */}

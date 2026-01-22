@@ -213,19 +213,8 @@ export default function Hero3D({
           </Link>
         </motion.div>
 
-        {/* Stats - Mobile (moved to bottom) */}
-        <motion.div
-          className="flex flex-wrap gap-3 order-4 lg:hidden text-muted-foreground font-mono text-sm tracking-wider uppercase"
-          initial="hidden"
-          animate={isMounted ? "visible" : "hidden"}
-          variants={fadeUp}
-        >
-          <span>TRANSACTIONS: <span className="!text-foreground font-medium">+100,000</span></span>
-          <span>VOLUME: <span className="!text-foreground font-medium">+$30,000</span></span>
-        </motion.div>
-
         {/* Desktop Layout - Left Column */}
-        <div className="hidden lg:flex lg:flex-col lg:justify-between lg:gap-24 lg:order-1 lg:col-span-1 lg:h-full">
+        <div className="hidden lg:flex lg:flex-col lg:justify-center lg:order-1 lg:col-span-1 lg:h-full">
           {/* Main Content - Top Aligned */}
           <motion.div
             className="flex flex-col space-y-3 max-w-lg"
@@ -257,17 +246,6 @@ export default function Hero3D({
                 </Button>
               </Link>
             </div>
-          </motion.div>
-
-          {/* Stats - Bottom Aligned */}
-          <motion.div
-            className="flex flex-wrap gap-3 text-muted-foreground font-mono text-sm tracking-wider uppercase"
-            initial="hidden"
-            animate={isMounted ? "visible" : "hidden"}
-            variants={fadeUp}
-          >
-            <span>TRANSACTIONS: <span className="text-foreground font-medium">+100,000</span></span>
-            <span>VOLUME: <span className="text-foreground font-medium">+$30,000</span></span>
           </motion.div>
         </div>
 
