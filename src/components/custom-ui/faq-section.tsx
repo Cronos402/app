@@ -86,7 +86,7 @@ const faqData: FAQItem[] = [
     question: "Does this project have a token?",
     answer: (
       <>
-        There is no official $CRONOS402 token, be careful with impersonators. Trust only official announcements on <Link href="https://t.me/cronos402" target="_blank" rel="noopener noreferrer" className="text-[#00B8E6] dark:text-[#00D4FF] hover:underline hover:decoration-dotted hover:underline-offset-2 transition-all duration-300">Telegram</Link> or <Link href="https://x.com/cronos402" target="_blank" rel="noopener noreferrer" className="text-[#00B8E6] dark:text-[#00D4FF] hover:underline hover:decoration-dotted hover:underline-offset-2 transition-all duration-300">X</Link>.
+        There is no official $CRONOS402 token, be careful with impersonators. Trust only official announcements on <Link href="https://x.com/cronos402_dev" target="_blank" rel="noopener noreferrer" className="text-[#00B8E6] dark:text-[#00D4FF] hover:underline hover:decoration-dotted hover:underline-offset-2 transition-all duration-300">X</Link>.
       </>
     )
   }

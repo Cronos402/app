@@ -182,10 +182,10 @@ export default function Hero3D({
           variants={fadeUp}
         >
           <h1 className="text-3xl sm:text-3xl lg:text-4xl font-semibold font-host text-foreground leading-tight">
-            The best way for AI to access and pay for online services
+            Developers can't monetize MCP servers. AI agents can't pay for premium tools.
           </h1>
           <p className="text-sm sm:text-lg text-foreground/80 leading-relaxed max-w-lg">
-            Single connection to use paid MCP tools across any client. Pay-per-use instead of expensive subscriptions.
+            First no-code payment gateway for MCP servers. Paste, price, share. Start earning in 3 minutes.
           </p>
         </motion.div>
 
@@ -224,13 +224,13 @@ export default function Hero3D({
           >
             {/* Heading */}
             <h1 className="text-2xl sm:text-3xl lg:text-4xl font-semibold font-host text-foreground leading-tight">
-              The best way for AI to access and pay for online services
+              Developers can't monetize MCP servers. AI agents can't pay for premium tools.
             </h1>
 
             {/* Subheading */}
             <p className="text-base sm:text-lg text-foreground/80 leading-relaxed">
-              Single connection to use paid MCP tools across any client.<br />
-              Pay-per-use instead of expensive subscriptions.
+              First no-code payment gateway for MCP servers.<br />
+              Paste, price, share. Start earning in 3 minutes.
             </p>
 
             {/* CTAs */}

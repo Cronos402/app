@@ -73,7 +73,7 @@ export default function Footer() {
                                 variant="link"
                                 className="h-8 px-2 font-mono text-[13px] tracking-wide text-muted-foreground hover:text-foreground hover:underline hover:decoration-dotted underline-offset-2"
                             >
-                                <Link href="https://github.com/cronos402/cronos402" target="_blank" rel="noreferrer">
+                                <Link href="https://github.com/Cronos402" target="_blank" rel="noreferrer">
                                     GITHUB
                                 </Link>
                             </Button>
@@ -82,16 +82,7 @@ export default function Footer() {
                                 variant="link"
                                 className="h-8 px-2 font-mono text-[13px] tracking-wide text-muted-foreground hover:text-foreground hover:underline hover:decoration-dotted underline-offset-2"
                             >
-                                <Link href="https://t.me/cronos402" target="_blank" rel="noreferrer">
-                                    TELEGRAM
-                                </Link>
-                            </Button>
-                            <Button
-                                asChild
-                                variant="link"
-                                className="h-8 px-2 font-mono text-[13px] tracking-wide text-muted-foreground hover:text-foreground hover:underline hover:decoration-dotted underline-offset-2"
-                            >
-                                <Link href="https://x.com/cronos402" target="_blank" rel="noreferrer">
+                                <Link href="https://x.com/cronos402_dev" target="_blank" rel="noreferrer">
                                     X
                                 </Link>
                             </Button>
@@ -129,7 +120,7 @@ export default function Footer() {
                                 variant="link"
                                 className="h-8 px-2 font-mono text-[13px] tracking-wide text-muted-foreground hover:text-foreground hover:underline hover:decoration-dotted underline-offset-2"
                             >
-                                <Link href="https://github.com/cronos402/cronos402" target="_blank" rel="noreferrer">
+                                <Link href="https://github.com/Cronos402" target="_blank" rel="noreferrer">
                                     GITHUB
                                 </Link>
                             </Button>
@@ -138,16 +129,7 @@ export default function Footer() {
                                 variant="link"
                                 className="h-8 px-2 font-mono text-[13px] tracking-wide text-muted-foreground hover:text-foreground hover:underline hover:decoration-dotted underline-offset-2"
                             >
-                                <Link href="https://t.me/cronos402" target="_blank" rel="noreferrer">
-                                    TELEGRAM
-                                </Link>
-                            </Button>
-                            <Button
-                                asChild
-                                variant="link"
-                                className="h-8 px-2 font-mono text-[13px] tracking-wide text-muted-foreground hover:text-foreground hover:underline hover:decoration-dotted underline-offset-2"
-                            >
-                                <Link href="https://x.com/cronos402" target="_blank" rel="noreferrer">
+                                <Link href="https://x.com/cronos402_dev" target="_blank" rel="noreferrer">
                                     X
                                 </Link>
                             </Button>

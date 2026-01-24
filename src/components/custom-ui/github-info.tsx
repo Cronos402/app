@@ -63,7 +63,7 @@ export default function GithubInfo({
               </div>
             </div>
 
-            <Link href="https://github.com/cronos402/cronos402" target="_blank" rel="noopener noreferrer" className="w-full lg:w-auto lg:max-w-[280px] mt-4">
+            <Link href="https://github.com/Cronos402" target="_blank" rel="noopener noreferrer" className="w-full lg:w-auto lg:max-w-[280px] mt-4">
               <Button variant="customTallPrimary" size="tall" className="w-full lg:min-w-[220px]">
                 STAR ON GITHUB
               </Button>

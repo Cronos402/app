@@ -209,17 +209,12 @@ export default function Navbar() {
                         </Link>
                       </Button>
                       <Button asChild variant="link" className={linkClasses}>
-                        <Link href="https://github.com/cronos402/cronos402" target="_blank" rel="noreferrer">
+                        <Link href="https://github.com/Cronos402" target="_blank" rel="noreferrer">
                           GITHUB
                         </Link>
                       </Button>
                       <Button asChild variant="link" className={linkClasses}>
-                        <Link href="https://t.me/cronos402" target="_blank" rel="noreferrer">
-                          TELEGRAM
-                        </Link>
-                      </Button>
-                      <Button asChild variant="link" className={linkClasses}>
-                        <Link href="https://x.com/cronos402" target="_blank" rel="noreferrer">
+                        <Link href="https://x.com/cronos402_dev" target="_blank" rel="noreferrer">
                           X
                         </Link>
                       </Button>

@@ -30,8 +30,8 @@ export default function DeveloperInfo({
             <HighlighterText>PROVIDE PAID ENDPOINTS</HighlighterText>
           </div>
           <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold font-host text-foreground leading-tight max-w-3xl">
-            The AI Gateway for your app.{" "}
-            <span className="font-normal text-muted-foreground">Get discovered and paid by any AI client.</span>
+            No-code MCP monetization.{" "}
+            <span className="font-normal text-muted-foreground">Paste your URL, set prices, start earning. Built exclusively for Cronos.</span>
           </h2>
         </div>
 
@@ -46,7 +46,7 @@ export default function DeveloperInfo({
             label="OPEN SOURCE"
             copy="Forever free. No fees. Developers can audit the entire code."
             ctaText="SOURCE CODE"
-            ctaHref="https://github.com/cronos402/cronos402"
+            ctaHref="https://github.com/Cronos402"
           />
           <InfoCard
             icon={ShieldCheck}
@@ -55,13 +55,8 @@ export default function DeveloperInfo({
           />
           <InfoCard
             icon={Earth}
-            label="MULTICHAIN"
-            copy={
-              <>
-                Works across all major EVM networks{" "}
-                <span className="text-muted-foreground">(Base, Avalanche, Polygon, Iotex and Sei)</span> and Solana.
-              </>
-            }
+            label="CRONOS EXCLUSIVE"
+            copy="Built only for Cronos blockchain. Supports gasless USDC.e via facilitator and native CRO payments."
           />
           </div>
         </div>

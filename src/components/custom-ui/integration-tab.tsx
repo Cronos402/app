@@ -328,7 +328,7 @@ console.log('Available tools:', tools)`
         }] : []),
         {
           text: 'Cronos402 GitHub',
-          href: 'https://github.com/cronos402/cronos402',
+          href: 'https://github.com/Cronos402',
           variant: 'secondary',
           icon: Github
         },
